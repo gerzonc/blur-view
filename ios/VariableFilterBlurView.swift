@@ -39,7 +39,7 @@ public class VariableBlurUIView: UIVisualEffectView {
 
         update(gradientMask: gradientMask, maxBlurRadius: maxBlurRadius, filterType: filterType)
     }
-    
+
     public func update(
         gradientMask: UIImage,
         maxBlurRadius: CGFloat = 20,
@@ -123,8 +123,10 @@ public class VariableBlurUIView: UIVisualEffectView {
 
         /// We use a `UIVisualEffectView` here purely to get access to its `CABackdropLayer`,
         /// which is able to apply various, real-time CAFilters onto the views underneath.
-        let backdropLayer = subviews.first?.layer
+        guard let window, let backdropLayer = subviews.first?.layer else { return }
 
+        /// Fixes visible pixelization at unblurred edge (https://github.com/nikstar/VariableBlur/blob/7b64063ae423035083b89ddfa2981832fc935d03/Sources/VariableBlur/VariableBlur.swift#L70-L75)
+        backdropLayer.setValue(window.screen.scale, forKey: "scale")
         /// Replace the standard filters (i.e. `gaussianBlur`, `colorSaturate`, etc.) with only the variableBlur.
         backdropLayer?.filters = [variableBlur]
     }
