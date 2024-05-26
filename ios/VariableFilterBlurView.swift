@@ -128,7 +128,7 @@ public class VariableBlurUIView: UIVisualEffectView {
         /// Fixes visible pixelization at unblurred edge (https://github.com/nikstar/VariableBlur/blob/7b64063ae423035083b89ddfa2981832fc935d03/Sources/VariableBlur/VariableBlur.swift#L70-L75)
         backdropLayer.setValue(window.screen.scale, forKey: "scale")
         /// Replace the standard filters (i.e. `gaussianBlur`, `colorSaturate`, etc.) with only the variableBlur.
-        backdropLayer?.filters = [variableBlur]
+        backdropLayer.filters = [variableBlur]
     }
 
     @available(*, unavailable)
